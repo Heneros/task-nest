@@ -6,6 +6,8 @@ import { NotesModule } from './notes/notes.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongodbModule } from './mongodb/mongodb.module';
+import { AuthEntity } from './auth/entities/auth.entity';
 
 @Module({
   imports: [
@@ -16,14 +18,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       expandVariables: true,
       envFilePath: './.env',
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        
-      },
-    }),
+
     NotesModule,
+    MongodbModule,
   ],
   controllers: [AppController],
   providers: [AppService],

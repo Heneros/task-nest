@@ -8,16 +8,27 @@ import {
   Delete,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import * as commands from './commands/index';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { AuthRepository } from './repository/auth.repository';
+import { AUTH_CONTROLLER, AUTH_ROUTER } from '@/data/site.constants';
 
-@Controller('auth')
+@Controller(AUTH_CONTROLLER)
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+    private readonly authRepository: AuthRepository,
+    private readonly authService: AuthService,
+  ) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post(AUTH_ROUTER.REGISTRATION)
+  async registration(@Body() createAuthDto: CreateAuthDto) {
+    return await this.commandBus.execute(
+      new commands.RegistrationCommand(createAuthDto),
+    );
   }
 
   @Get()

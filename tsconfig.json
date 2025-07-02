@@ -16,6 +16,28 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@/src/auth/*": [
+        "src/auth/*"
+      ],
+      "@/src/notes/*": [
+        "src/notes/*"
+      ],
+      "@/src/data/*": [
+        "src/data/*"
+      ]
+    },
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
